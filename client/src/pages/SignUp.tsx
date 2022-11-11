@@ -31,12 +31,17 @@ const SignUp: React.FC = () => {
       biography
     }
     console.log("Creating new account with user:", user);
-    // TODO: call API to create new user account
-    // replace this with fetch to API endpoint
-    const resp = await new Promise(resolve => {
-      setTimeout(() => { resolve(true) }, 1000);
+    const resp = await fetch("http://localhost:8080/users/create", {
+      method: "POST",
+      headers: {
+        'Allow': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user),
     });
-    if (resp) {
+    const data = await resp.json();
+    console.log("data:",data);
+    if (data) {
       presentToast({
         message: "Account created successfully!",
         duration: 2000,

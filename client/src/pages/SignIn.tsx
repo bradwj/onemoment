@@ -20,9 +20,17 @@ const SignIn: React.FC<SignInProps> = (props) => {
     console.log("Signing in with username: " + username + " and password: " + password);
     // TODO: call API to check if credentials are valid
     // replace this with fetch to API endpoint
-    const resp = await new Promise(resolve => {
-      setTimeout(() => { resolve(true) }, 1000);
+    const resp = await fetch("http://localhost:8080/users/signin", {
+      method: "POST",
+      headers: {
+        'Allow': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password }),
     });
+    const data = await resp.json();
+    console.log("data:", data);
+    // response should be { success: boolean, uid: string | null }
     if (resp) {
       presentToast({
         message: "Signed in successfully!",
@@ -78,7 +86,7 @@ const SignIn: React.FC<SignInProps> = (props) => {
           <IonLabel position="floating">Password</IonLabel>
           <IonInput
             name="password"
-            type="password" 
+            type="password"
             onIonChange={(e) => setPassword(e.detail.value!)}
           />
         </IonItem>
