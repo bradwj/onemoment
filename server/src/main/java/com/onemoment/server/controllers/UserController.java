@@ -35,7 +35,7 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         user.setUid(UUID.randomUUID());
         userRepository.addUser(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        return new ResponseEntity<User>(user, HttpStatus.CREATED);
 
         /* Keeping incase want to use in future
         URI location = ServletUriComponentsBuilder
