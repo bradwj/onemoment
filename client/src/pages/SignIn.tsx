@@ -2,6 +2,7 @@ import { IonButton, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonPage,
 import { checkmarkCircleOutline, closeCircleOutline } from 'ionicons/icons';
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { SignInRequest, UserControllerResponse } from '../interfaces';
 import './SignIn.css';
 
 interface SignInProps {
@@ -18,39 +19,41 @@ const SignIn: React.FC<SignInProps> = (props) => {
 
   const handleSignInButton = async () => {
     console.log("Signing in with username: " + username + " and password: " + password);
-    const resp = await fetch("http://localhost:8080/users/signin", {
-      method: "POST",
-      headers: {
-        'Allow': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password }),
-    });
-    const data = await resp.json();
-    console.log("data:", data);
-    
-    const username = new Boolean(true);
-    console.log(username.tostring());
-    
-    const password = new Boolean (1)
-    console.log(password.toString());
-    // response should be { success: boolean, uid: string | null }
-    if (resp) {
-      presentToast({
-        message: "Signed in successfully!",
-        duration: 2000,
-        icon: checkmarkCircleOutline,
-        color: "success",
+    try {
+      const requestBody: SignInRequest = {
+        username,
+        password
+      }
+      const resp = await fetch("http://localhost:8080/users/signin", {
+        method: "POST",
+        headers: {
+          'Allow': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody),
       });
-      props.setSignedIn(true);
-      props.setUid(get.uid); 
-      // redirect to feed page
-      history.push("/feed");
-    }
-    else {
+      const data: UserControllerResponse = await resp.json();
+      console.log("response data:", data);
+
+      if (data?.success) {
+        presentToast({
+          message: "Signed in successfully!",
+          duration: 2000,
+          icon: checkmarkCircleOutline,
+          color: "success",
+        });
+        props.setSignedIn(true);
+        props.setUid(data.uid);
+        // redirect to feed page
+        history.push("/feed");
+      }
+      else {
+        throw new Error(data?.message);
+      }
+    } catch (err: any) {
       presentToast({
-        message: "An error occurred while signing in. Please try again.",
-        duration: 2000,
+        message: `An error occured while attempting to sign in: ${err.message}`,
+        duration: 4000,
         icon: closeCircleOutline,
         color: "danger",
       });

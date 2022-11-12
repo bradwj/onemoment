@@ -3,20 +3,8 @@ import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './SignUp.css';
 import { checkmarkCircleOutline, closeCircleOutline } from 'ionicons/icons';
+import { User, UserControllerResponse } from '../interfaces';
 
-interface User {
-  username: string;
-  password: string;
-  phoneNumber: string;
-  birthday: Date;
-  biography: string;
-}
-
-interface SignUpResponse {
-  success: boolean;
-  uid: string | null;
-  message: string;
-}
 
 const SignUp: React.FC = () => {
   const history = useHistory();
@@ -46,8 +34,9 @@ const SignUp: React.FC = () => {
         },
         body: JSON.stringify(user),
       });
-      const data: SignUpResponse = await resp.json();
-      console.log("data:",data);
+      const data: UserControllerResponse = await resp.json();
+      console.log("response data:",data);
+
       if (data?.success) {
         presentToast({
           message: "Account created successfully!",
@@ -63,7 +52,7 @@ const SignUp: React.FC = () => {
       }
     } catch (err: any) {
       presentToast({
-        message: `Could not create account: ${err?.toString()}`,
+        message: `Could not create account: ${err.message}`,
         duration: 4000,
         icon: closeCircleOutline,
         color: "danger",
