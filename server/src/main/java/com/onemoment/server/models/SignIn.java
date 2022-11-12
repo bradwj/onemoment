@@ -1,8 +1,8 @@
 package com.onemoment.server.models;
 
-import java.util.List;
-
 import com.onemoment.server.repositories.UserRepository;
+
+import java.util.List;
 
 public class SignIn {
     private String usernameAttempt;

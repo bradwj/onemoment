@@ -14,6 +14,14 @@ public class Users {
         return userList;
     }
 
+    public boolean userExistsWithUsername(String username) {
+        for (User user : userList) {
+            if (username.equals(user.getUsername()))
+                return true;
+        }
+        return false;
+    }
+
     public void setUserList(List<User> userList) {
         this.userList = userList;
     }

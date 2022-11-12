@@ -34,4 +34,8 @@ public class UserRepository {
                 .add(user);
     }
 
+    public boolean userExistsWithUsername(String username) {
+        return list.userExistsWithUsername(username);
+    }
+
 }
