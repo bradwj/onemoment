@@ -28,6 +28,12 @@ const SignIn: React.FC<SignInProps> = (props) => {
     });
     const data = await resp.json();
     console.log("data:", data);
+    
+    const username = new Boolean(true);
+    console.log(username.tostring());
+    
+    const password = new Boolean (1)
+    console.log(password.toString());
     // response should be { success: boolean, uid: string | null }
     if (resp) {
       presentToast({
@@ -37,7 +43,7 @@ const SignIn: React.FC<SignInProps> = (props) => {
         color: "success",
       });
       props.setSignedIn(true);
-      props.setUid(get.uid); // hardcoded; replace with actual uid from API
+      props.setUid(get.uid); 
       // redirect to feed page
       history.push("/feed");
     }
