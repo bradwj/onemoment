@@ -12,6 +12,12 @@ interface User {
   biography: string;
 }
 
+interface SignUpResponse {
+  success: boolean;
+  uid: string | null;
+  message: string;
+}
+
 const SignUp: React.FC = () => {
   const history = useHistory();
   const [presentToast] = useIonToast();
@@ -30,31 +36,35 @@ const SignUp: React.FC = () => {
       birthday: new Date(birthday),
       biography
     }
-    console.log("Creating new account with user:", user);
-    const resp = await fetch("http://localhost:8080/users/create", {
-      method: "POST",
-      headers: {
-        'Allow': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user),
-    });
-    const data = await resp.json();
-    console.log("data:",data);
-    if (data) {
-      presentToast({
-        message: "Account created successfully!",
-        duration: 2000,
-        icon: checkmarkCircleOutline,
-        color: "success",
+    console.log("Attempting to create new account with user:", user);
+    try {
+      const resp = await fetch("http://localhost:8080/users/create", {
+        method: "POST",
+        headers: {
+          'Allow': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user),
       });
-      // redirect to sign in page
-      history.push("/signin");
-    }
-    else {
+      const data: SignUpResponse = await resp.json();
+      console.log("data:",data);
+      if (data?.success) {
+        presentToast({
+          message: "Account created successfully!",
+          duration: 2000,
+          icon: checkmarkCircleOutline,
+          color: "success",
+        });
+        // redirect to sign in page
+        history.push("/signin");
+      }
+      else {
+        throw new Error(data?.message);
+      }
+    } catch (err: any) {
       presentToast({
-        message: "An error occurred when creating account.",
-        duration: 2000,
+        message: `Could not create account: ${err?.toString()}`,
+        duration: 4000,
         icon: closeCircleOutline,
         color: "danger",
       });
