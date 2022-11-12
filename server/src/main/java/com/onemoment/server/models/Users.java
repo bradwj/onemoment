@@ -22,8 +22,15 @@ public class Users {
         return false;
     }
 
+    public User getUserWithUsername(String username) {
+        for (User user : userList) {
+            if (username.equals(user.getUsername()))
+                return user;
+        }
+        return null;
+    }
+
     public void setUserList(List<User> userList) {
         this.userList = userList;
     }
-
 }

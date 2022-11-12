@@ -1,20 +1,15 @@
 package com.onemoment.server.controllers;
 
+import com.onemoment.server.models.SignInRequest;
 import com.onemoment.server.models.User;
-import com.onemoment.server.models.Users;
+import com.onemoment.server.models.UserControllerResponse;
 import com.onemoment.server.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.util.Date;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -32,38 +27,9 @@ public class UserController {
     private static final String INVALID_BIRTHDAY_MSG = "Birthday must be a valid date.";
     private static final String INVALID_BIOGRAPHY_MSG = "Biography must be less than " + MAX_BIOGRAPHY_LENGTH + " characters long.";
     private static final String USER_CREATE_SUCCESS_MSG = "User created successfully.";
+
     @Autowired
     private UserRepository userRepository;
-
-    private class UserControllerResponse {
-        boolean success;
-        UUID uid;
-        String message;
-
-        public UserControllerResponse(boolean success, UUID uid, String message) {
-            this.success = success;
-            this.uid = uid;
-            this.message = message;
-        }
-        public void setSuccess(boolean success) {
-            this.success = success;
-        }
-        public void setUid(UUID uid) {
-            this.uid = uid;
-        }
-        public void setMessage(String message) {
-            this.message = message;
-        }
-        public boolean isSuccess() {
-            return success;
-        }
-        public UUID getUid() {
-            return uid;
-        }
-        public String getMessage() {
-            return message;
-        }
-    }
 
     @PostMapping(
             path="/create",
@@ -102,6 +68,28 @@ public class UserController {
         resp.setSuccess(true);
         resp.setUid(user.getUid());
         resp.setMessage(USER_CREATE_SUCCESS_MSG);
+        return new ResponseEntity<>(resp, HttpStatus.CREATED);
+    }
+
+    @PostMapping(
+            path="/signin",
+            consumes="application/json",
+            produces="application/json"
+    )
+    public ResponseEntity<UserControllerResponse> signIn(@RequestBody SignInRequest request) {
+        UserControllerResponse resp = new UserControllerResponse(false, null, null);
+        User user = userRepository.getUserWithUsername(request.getUsername());
+        if (user == null) {
+            resp.setMessage("An account with that username does not exist.");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+        if (!request.getPassword().equals(user.getPassword())) {
+            resp.setMessage("Password is not correct.");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+        resp.setSuccess(true);
+        resp.setUid(user.getUid());
+        resp.setMessage("Successfully signed in.");
         return new ResponseEntity<>(resp, HttpStatus.CREATED);
     }
 

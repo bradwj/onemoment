@@ -38,4 +38,8 @@ public class UserRepository {
         return list.userExistsWithUsername(username);
     }
 
+    public User getUserWithUsername(String username) {
+        return list.getUserWithUsername(username);
+    }
+
 }
