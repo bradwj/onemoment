@@ -18,8 +18,6 @@ const SignIn: React.FC<SignInProps> = (props) => {
 
   const handleSignInButton = async () => {
     console.log("Signing in with username: " + username + " and password: " + password);
-    // TODO: call API to check if credentials are valid
-    // replace this with fetch to API endpoint
     const resp = await fetch("http://localhost:8080/users/signin", {
       method: "POST",
       headers: {
@@ -39,7 +37,7 @@ const SignIn: React.FC<SignInProps> = (props) => {
         color: "success",
       });
       props.setSignedIn(true);
-      props.setUid("1234567890"); // hardcoded; replace with actual uid from API
+      props.setUid(get.uid); // hardcoded; replace with actual uid from API
       // redirect to feed page
       history.push("/feed");
     }
