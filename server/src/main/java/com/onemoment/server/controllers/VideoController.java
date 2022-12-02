@@ -48,11 +48,11 @@ public class VideoController {
 
     @GetMapping("all")
     public List<Response> getVideoList() {
-        List<Response> userList = new ArrayList<>();
+        List<Response> videoList = new ArrayList<>();
         for(Video v: vService.getAllVideos().getVideoList()) {
-            userList.addAll((Collection<? extends Response>) new ByteArrayResource(v.getData()));
+            videoList.addAll((Collection<? extends Response>) new ByteArrayResource(v.getData()));
         }
-        return userList;
+        return videoList;
     }
     
 
