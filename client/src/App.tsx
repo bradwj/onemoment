@@ -40,8 +40,9 @@ import Profile from './pages/Profile';
 setupIonicReact();
 
 const App: React.FC = () => {
-  const [signedIn, setSignedIn] = useState(false);
-  const [uid, setUid] = useState<string | null>(null);
+  const [signedIn, setSignedIn] = useState(true);
+  // eslint-disable-next-line
+  const [uid, setUid] = useState<string | null>("123456789");
 
   return (
     <IonApp>

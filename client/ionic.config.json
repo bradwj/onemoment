@@ -1,5 +1,7 @@
 {
   "name": "OneMoment",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "react"
 }

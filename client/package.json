@@ -3,6 +3,19 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@awesome-cordova-plugins/camera": "^6.2.0",
+    "@awesome-cordova-plugins/core": "6.2.0",
+    "@awesome-cordova-plugins/file": "^6.2.0",
+    "@awesome-cordova-plugins/media-capture": "6.2.0",
+    "@capacitor/android": "^4.5.0",
+    "@capacitor/app": "4.1.1",
+    "@capacitor/camera": "^4.1.4",
+    "@capacitor/core": "4.5.0",
+    "@capacitor/filesystem": "4.1.4",
+    "@capacitor/haptics": "4.1.0",
+    "@capacitor/keyboard": "4.1.0",
+    "@capacitor/status-bar": "4.1.0",
+    "@ionic/pwa-elements": "^3.1.1",
     "@ionic/react": "^6.0.0",
     "@ionic/react-router": "^6.0.0",
     "@testing-library/jest-dom": "^5.11.9",
@@ -14,6 +27,9 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
+    "cordova-plugin-camera": "^6.0.0",
+    "cordova-plugin-file": "7.0.0",
+    "cordova-plugin-media-capture": "^4.0.0",
     "ionicons": "^6.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -60,6 +76,8 @@
   },
   "description": "An Ionic project",
   "devDependencies": {
+    "@capacitor/cli": "4.5.0",
+    "@ionic/cli": "6.20.4",
     "react-scripts": "5.0.1"
   }
 }
