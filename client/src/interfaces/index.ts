@@ -17,3 +17,8 @@ export interface SignInRequest {
   username: string;
   password: string;
 }
+
+export interface VideoData {
+  username: string;
+  videoFileURL: string;
+}

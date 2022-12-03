@@ -59,7 +59,7 @@ const App: React.FC = () => {
               <SignUp />
             </Route>
             <Route exact path="/feed">
-              <Feed />
+              <Feed uid={uid} />
             </Route>
             <Route exact path="/task">
               <Task />
